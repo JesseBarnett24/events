@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Middleware\Authenticate;
-use App\Models\Product;
+use App\Models\Event;
 use App\Models\User;
 
 //Route::get('/test', function(){
@@ -20,7 +20,8 @@ use App\Models\User;
 
 //Route::resource('product/create', ProductController::class)->middleware(Authenticate::class);
 
-Route::get('/', [ProductController::class, 'index']);
+Route::get('/', [EventController::class, 'index']);
+/* 
 Route::get('/product', [ProductController::class, 'index']);
 
 
@@ -44,5 +45,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+*/
 require __DIR__.'/auth.php';
