@@ -4,6 +4,6 @@
     </p>
     <p class="text-xs mt-1">
         <a href="{{ url('/privacy-policy') }}" class="text-blue-500 hover:underline">Privacy Policy</a> |
-        <a href="{{ url('/terms') }}" class="text-blue-500 hover:underline">Terms of Use</a>
+        <a href="{{ url('/terms-of-use') }}" class="text-blue-500 hover:underline">Terms of Use</a>
     </p>
 </footer>

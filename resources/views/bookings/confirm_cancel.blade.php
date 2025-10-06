@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Display booking status message based on session value -->
 <div class="container py-6 text-center">
     <div class="bg-white shadow-md rounded-lg p-6 mx-auto max-w-lg">
         @if(session('status') === 'cancelled')
@@ -25,6 +26,7 @@
             </p>
         @endif
 
+        <!-- Link back to user's bookings page -->
         <a href="{{ url('/bookings/mine') }}" 
            class="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
            Back to My Bookings

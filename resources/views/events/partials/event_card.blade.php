@@ -9,7 +9,7 @@
     <p>
         <strong>Categories:</strong>
         @foreach($event->categories as $category)
-            <span style="border:1px solid #999; padding:2px 5px; margin-right:4px;">{{ $category->name }}</span>
+            <span class="inline-block px-3 py-1.5 bg-blue-100 text-blue-700 text-sm rounded-md hover:bg-blue-200 transition">{{ $category->name }}</span>
         @endforeach
     </p>
 </div>

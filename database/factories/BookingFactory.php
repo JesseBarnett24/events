@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BookingFactory extends Factory
 {
+    //create bookings from seeder
+    //return void
     public function definition()
     {
         return [

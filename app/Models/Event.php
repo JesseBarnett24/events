@@ -9,7 +9,7 @@ class Event extends Model
 {
     use HasFactory;
 
-    // ✅ Allow these fields to be mass assignable
+    // Allow these fields to be mass assignable
     protected $fillable = [
         'title',
         'description',
@@ -19,7 +19,7 @@ class Event extends Model
         'organiser_id'
     ];
 
-    // ✅ Relationships
+    // Relationships
     public function organiser()
     {
         return $this->belongsTo(User::class, 'organiser_id');

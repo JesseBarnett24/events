@@ -9,21 +9,21 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\OrganiserDashboardController;
 
-// Public
+// Public routes for viewing events
 Route::get('/', [EventController::class, 'index'])->name('home');
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{id}', [EventController::class, 'show'])
     ->whereNumber('id')
     ->name('events.show');
 
-// Authenticated
+// Routes requiring authentication
 Route::middleware('auth')->group(function () {
-    // Profile (Breeze)
+    // Profile management routes (Breeze scaffolding)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Event CRUD (organiser check done inside controller)
+    // Event creation, editing, and deletion for organisers (controller handles role checks)
     Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
     Route::post('/events', [EventController::class, 'store'])->name('events.store');
 
@@ -39,26 +39,34 @@ Route::middleware('auth')->group(function () {
         ->whereNumber('id')
         ->name('events.destroy');
 
-
+    // Organiser dashboard view
     Route::get('/organiser/{id}', [OrganiserDashboardController::class, 'dashboard'])
         ->middleware('auth')
         ->whereNumber('id')
         ->name('organiser.dashboard');
         
-    // Attendee bookings
+    // Attendee booking management
     Route::get('/bookings/mine', [BookingController::class, 'index'])->name('bookings.index');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::delete('/bookings/{id}/cancel', [BookingController::class, 'destroy'])->name('bookings.destroy');
 });
 
-// Category filter
+// Category routes for filtering or viewing specific category data
 Route::get('/categories/{id}', [CategoryController::class, 'show'])
     ->whereNumber('id')
     ->name('categories.show');
 
-// Breeze dashboard redirect
+// AJAX route for event filtering based on category or search
+Route::get('/events/filter', [EventController::class, 'filter'])->name('events.filter');
+
+// Redirect Breeze dashboard route to home page after login
 Route::get('/dashboard', fn() => redirect()->route('home'))
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+// Static legal pages
+Route::view('/privacy-policy', 'legal.privacy')->name('privacy.policy');
+Route::view('/terms-of-use', 'legal.terms')->name('terms.use');
+
+// Breeze authentication routes
 require __DIR__.'/auth.php';

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Display user's booked events with options to view or cancel -->
 <div class="container py-6">
     <h1 class="text-2xl font-bold mb-6">My Bookings</h1>
 
@@ -22,6 +23,7 @@
             Browse Events →
         </a>
     @else
+        <!-- Display user's current bookings -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($bookings as $booking)
                 <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4 flex flex-col">
@@ -38,6 +40,7 @@
                         Organiser: {{ $booking->event->organiser->name }}
                     </p>
 
+                    <!-- Display categories if event has any -->
                     @if($booking->event->categories->isNotEmpty())
                         <p class="text-xs text-gray-500 mb-3">
                             Categories:
@@ -49,6 +52,7 @@
                         </p>
                     @endif
 
+                    <!-- Booking actions: view or cancel -->
                     <div class="mt-auto flex justify-between items-center">
                         <a href="{{ url('/events/' . $booking->event->id) }}" 
                            class="text-sm text-blue-600 hover:underline">View Details</a>
@@ -64,7 +68,7 @@
             @endforeach
         </div>
 
-        <!-- Pagination (if applicable) -->
+        <!-- Display pagination if booking list exceeds one page -->
         <div class="mt-6">
             {{ $bookings->links() }}
         </div>

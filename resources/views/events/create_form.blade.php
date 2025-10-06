@@ -3,8 +3,11 @@
 @section('Title', 'Create Event')
 
 @section('content')
-<h1 class="text-2xl font-semibold mb-6 text-center">Create Event</h1>
+<h1 class="text-3xl font-bold text-gray-800 mb-6 border-b border-gray-200 pb-2">
+    Create Event
+</h1>
 
+<!-- Display validation errors if form submission fails -->
 @if ($errors->any())
     <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
         <ul class="list-disc ml-6">
@@ -15,6 +18,7 @@
     </div>
 @endif
 
+<!-- Event creation form -->
 <form method="POST" action="{{ url('/events') }}" class="bg-white shadow-md rounded-lg p-6 max-w-2xl mx-auto">
     @csrf
 
@@ -43,6 +47,7 @@
         <input type="number" name="capacity" min="1" max="1000" value="{{ old('capacity') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
     </div>
 
+    <!-- Category selection checkboxes -->
     <div class="mb-6">
         <label class="block text-gray-700 font-medium mb-2">Categories</label>
         <div class="flex flex-wrap gap-2">
@@ -61,6 +66,7 @@
     </button>
 </form>
 
+<!-- Link back to event listings -->
 <div class="text-center mt-6">
     <a href="{{ url('/events') }}" class="text-blue-600 hover:underline">← Back to Events</a>
 </div>
