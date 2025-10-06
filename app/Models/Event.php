@@ -9,19 +9,29 @@ class Event extends Model
 {
     use HasFactory;
 
+    // ✅ Allow these fields to be mass assignable
     protected $fillable = [
-        'title', 'description', 'starts_at', 'location', 'capacity', 'organiser_id'
+        'title',
+        'description',
+        'starts_at',
+        'location',
+        'capacity',
+        'organiser_id'
     ];
 
-    public function organiser() {
+    // ✅ Relationships
+    public function organiser()
+    {
         return $this->belongsTo(User::class, 'organiser_id');
     }
 
-    public function bookings() {
-        return $this->hasMany(Booking::class);
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 
-    public function categories() {
-        return $this->belongsToMany(Category::class, 'category_event');
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
 }

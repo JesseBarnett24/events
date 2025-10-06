@@ -1,49 +1,64 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Auth\Middleware\Authenticate;
-use App\Models\Event;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
-//Route::get('/test', function(){
-//    $user = User::find(1);
-//    $prods = $user->products;
-//    dd($prods);
-//});
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\OrganiserDashboardController;
 
-//Route::resource('product', ProductController::class);
+// Public
+Route::get('/', [EventController::class, 'index'])->name('home');
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/{id}', [EventController::class, 'show'])
+    ->whereNumber('id')
+    ->name('events.show');
 
-//Route::resource('product/create', ProductController::class)->middleware(Authenticate::class);
-
-Route::get('/', [EventController::class, 'index']);
-/* 
-Route::get('/product', [ProductController::class, 'index']);
-
-
+// Authenticated
 Route::middleware('auth')->group(function () {
-    Route::get('/product/create', [ProductController::class, 'create']);
-    Route::post('/product', [ProductController::class, 'store']);
-    Route::get('/product/{id}/edit', [ProductController::class, 'edit']);
-    Route::put('/product/{id}', [ProductController::class, 'update']);
-    Route::delete('/product/{id}', [ProductController::class, 'destroy']);
-});
-Route::get('product/{id}', [ProductController::class, 'show']);
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-
-Route::middleware('auth')->group(function () {
+    // Profile (Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Event CRUD (organiser check done inside controller)
+    Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
+    Route::post('/events', [EventController::class, 'store'])->name('events.store');
+
+    Route::get('/events/{id}/edit', [EventController::class, 'edit'])
+        ->whereNumber('id')
+        ->name('events.edit');
+
+    Route::put('/events/{id}', [EventController::class, 'update'])
+        ->whereNumber('id')
+        ->name('events.update');
+
+    Route::delete('/events/{id}', [EventController::class, 'destroy'])
+        ->whereNumber('id')
+        ->name('events.destroy');
+
+
+    Route::get('/organiser/{id}', [OrganiserDashboardController::class, 'dashboard'])
+        ->middleware('auth')
+        ->whereNumber('id')
+        ->name('organiser.dashboard');
+        
+    // Attendee bookings
+    Route::get('/bookings/mine', [BookingController::class, 'index'])->name('bookings.index');
+    Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+    Route::delete('/bookings/{id}/cancel', [BookingController::class, 'destroy'])->name('bookings.destroy');
 });
-*/
+
+// Category filter
+Route::get('/categories/{id}', [CategoryController::class, 'show'])
+    ->whereNumber('id')
+    ->name('categories.show');
+
+// Breeze dashboard redirect
+Route::get('/dashboard', fn() => redirect()->route('home'))
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
 require __DIR__.'/auth.php';
